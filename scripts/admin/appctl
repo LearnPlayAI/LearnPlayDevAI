@@ -1,0 +1,120 @@
+#!/usr/bin/env bash
+# promptly.app Admin Console
+# Usage: ./appctl {start|stop|restart|status|logs|deploy|backup|restore|migrate|health}
+
+set -Eeuo pipefail
+
+COMPOSE_FILE="../infra/compose/docker-compose.yml"
+PROJECT_DIR="$(cd "$(dirname "$0")/../infra/compose" && pwd)"
+BACKUP_DIR="../backups"
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+
+cd "$PROJECT_DIR"
+
+menu() {
+    echo "=========================================="
+    echo "  promptly.app Admin Console"
+    echo "=========================================="
+    echo "1) Start services"
+    echo "2) Stop services"
+    echo "3) Restart services"
+    echo "4) Status"
+    echo "5) Logs"
+    echo "6) Health check"
+    echo "7) Deploy (build + start)"
+    echo "8) Backup database"
+    echo "9) Restore database"
+    echo "10) Run migrations"
+    echo "0) Exit"
+    echo "=========================================="
+    read -rp "Choose: " choice
+    case "$choice" in
+        1) do_start ;;
+        2) do_stop ;;
+        3) do_restart ;;
+        4) do_status ;;
+        5) do_logs ;;
+        6) do_health ;;
+        7) do_deploy ;;
+        8) do_backup ;;
+        9) do_restore ;;
+        10) do_migrate ;;
+        0) exit 0 ;;
+        *) echo "Invalid option" ;;
+    esac
+}
+
+do_start() {
+    echo "Starting services..."
+    docker compose up -d
+}
+
+do_stop() {
+    echo "Stopping services..."
+    docker compose down
+}
+
+do_restart() {
+    echo "Restarting services..."
+    docker compose restart
+}
+
+do_status() {
+    echo "Service status:"
+    docker compose ps
+}
+
+do_logs() {
+    echo "Showing logs (tail -f):"
+    docker compose logs -f
+}
+
+do_health() {
+    echo "Health check:"
+    curl -s http://localhost:8080/api/health && echo ""
+    curl -s http://localhost/health && echo ""
+}
+
+do_deploy() {
+    echo "Deploying..."
+    read -rp "Continue? (y/N): " confirm
+    if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
+        echo "Aborted"
+        exit 0
+    fi
+    echo "Running migrations..."
+    docker compose exec promptly-api java -jar /app.jar migrate
+    echo "Building and starting..."
+    docker compose up -d --build
+}
+
+do_backup() {
+    echo "Backing up database..."
+    mkdir -p "$BACKUP_DIR"
+    local backup_file="${BACKUP_DIR}/promptly_backup_${TIMESTAMP}.sql"
+    docker compose exec promptly-db pg_dump -U postgres promptly > "$backup_file"
+    echo "Backup saved to: $backup_file"
+}
+
+do_restore() {
+    echo "WARNING: This will overwrite the database!"
+    read -rp "Continue? (y/N): " confirm
+    if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
+        echo "Aborted"
+        exit 0
+    fi
+    echo "Taking pre-restore backup..."
+    do_backup
+    echo "Restore database..."
+    read -rp "Backup file: " backup_file
+    docker compose exec -T promptly-db psql -U postgres promptly < "$backup_file"
+    echo "Restore complete"
+}
+
+do_migrate() {
+    echo "Running Flyway migrations..."
+    docker compose exec promptly-api java -jar /app.jar flyway:migrate
+    echo "Migrations complete"
+}
+
+menu

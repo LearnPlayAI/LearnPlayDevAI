@@ -1,0 +1,86 @@
+# promptly.app Docker Compose
+# Deploy to: pahost.learnplay.co.za (192.168.89.77)
+# Public URL: https://pf.learnplay.co.za (Caddy forwards to port 80)
+
+services:
+  # --- PostgreSQL Database ---
+  promptly-db:
+    image: postgres:18-alpine
+    container_name: promptly-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: promptly
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - promptly-db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - promptly-net
+
+  # --- Spring Boot API ---
+  promptly-api:
+    build:
+      context: ../apps/api
+      dockerfile: Dockerfile
+    container_name: promptly-api
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://promptly-db:5432/promptly
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_FLYWAY_LOCATIONS: classpath:db/migration
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_APP_JWT_SECRET: ${JWT_SECRET}
+      SPRING_APP_JWT_EXPIRATION: 3600000
+      SPRING_APP_JWT_REFRESH_EXPIRATION: 604800000
+      SPRING_APP_SECRET_KEY: ${SECRET_KEY}
+    ports:
+      - "8080:8080"
+    depends_on:
+      promptly-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - promptly-net
+    volumes:
+      - api-logs:/app/logs
+
+  # --- Nginx (Angular + API Proxy) ---
+  promptly-web:
+    build:
+      context: ../apps/web
+      dockerfile: Dockerfile
+    container_name: promptly-web
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - promptly-api
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - promptly-net
+
+volumes:
+  promptly-db-data:
+    driver: local
+  api-logs:
+    driver: local
+
+networks:
+  promptly-net:
+    driver: bridge

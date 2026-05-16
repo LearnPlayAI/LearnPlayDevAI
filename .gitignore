@@ -1,0 +1,14 @@
+node_modules/
+target/
+.gradle/
+.idea/
+dist/
+build/
+.env
+.env.local
+.env.production
+.vscode/
+coverage/
+tmp/
+temp/
+.cache/
