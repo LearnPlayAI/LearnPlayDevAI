@@ -148,7 +148,104 @@ WebClaw MCP lets Cline control a web browser — this is how it tests your app's
 
 ---
 
+## Step 6.5: Switch to WSL Environment (Windows Users — Important!)
+
+**If you're on Linux or macOS, skip to Step 7.**
+
+This step makes sure your project runs inside WSL (Linux), not on Windows. This is critical for performance and for tools to work correctly.
+
+### Part A — Install the Remote - WSL Extension
+
+1. In VS Code, click the **Extensions** icon on the left sidebar (looks like 4 squares)
+2. Type `Remote - WSL` in the search box
+3. Find **Remote - WSL** by Microsoft
+4. Click **Install**
+
+### Part B — Open a WSL Window
+
+1. Press `Ctrl+Shift+P` to open the Command Palette
+2. Type: `Remote-WSL`
+3. Select **`Remote-WSL: New Window`**
+4. A new VS Code window will open connected to WSL
+
+**Why this matters:**
+- Files on Windows (`/mnt/c/`) are 10-100x slower than WSL files
+- Linux tools (npm, docker, make) only work properly inside WSL
+- Always work inside your WSL home directory (`/home/username/`)
+
+### Part C — Clone Your Project Inside WSL
+
+In the new WSL VS Code window, open the terminal (`Ctrl+` `) and run:
+
+```bash
+cd ~
+git clone https://github.com/LearnPlayAI/LearnPlayDevAI.git
+cd LearnPlayDevAI
+```
+
+### Part D — Install Tools Inside WSL
+
+```bash
+sudo apt update && sudo apt install -y git nodejs python3 python3-pip jq
+```
+
+### Part E — Verify WSL Connection
+
+At the bottom-left of the VS Code window, you should see **`WSL: Ubuntu`**. This confirms you're inside WSL.
+
+---
+
+## Step 6.6: Verify WSL Display Environment (Windows Users — Important!)
+
+WebClaw needs a display environment to launch Chrome browser. On Windows 11, this is built-in (called WSLg). On older systems, you need to set it up.
+
+### Check if Display Works
+
+In the Ubuntu terminal inside WSL, run:
+
+```bash
+echo $DISPLAY
+```
+
+- If you see something like `/mnt/wslg/.X11-lock` or `:0`, **display is working** — skip to Step 7!
+- If you see nothing (empty line), continue below
+
+### If Display Is Not Working (Windows 11)
+
+1. Make sure you're on Windows 11 (WSLg requires Windows 11)
+2. Update Windows: Settings → Update & Security → Windows Update
+3. Restart your computer
+4. Check again: `echo $DISPLAY`
+
+### If Display Is Not Working (Windows 10 or Server)
+
+Install a virtual display (xvfb):
+
+```bash
+sudo apt update
+sudo apt install -y xvfb
+Xvfb :99 -screen 0 1920x1080x24 &
+export DISPLAY=:99
+```
+
+To make it persistent, add these lines to `~/.bashrc`:
+
+```bash
+if [ -z "$DISPLAY" ]; then
+    pgrep Xvfb > /dev/null || Xvfb :99 -screen 0 1920x1080x24 &
+    export DISPLAY=:99
+fi
+```
+
+Then run: `source ~/.bashrc`
+
+---
+
 ## Step 7: Configure Chrome Browser & Install WebClaw Extension
+
+**NOTE for Windows users:** Make sure you've completed Step 6.5 (WSL) and Step 6.6 (display env) before doing this step. Chrome browser settings must be configured from inside the WSL window.
+
+
 
 WebClaw MCP lets Cline control a web browser. You need to install the WebClaw extension in the Chrome browser that Cline launches.
 

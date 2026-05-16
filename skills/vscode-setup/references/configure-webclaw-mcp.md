@@ -105,6 +105,44 @@ For WebClaw to work, you need:
 
 1. **Node.js installed** — WebClaw uses `npx` to launch
 2. **Chrome or Chromium browser installed** — WebClaw controls a Chromium browser
+3. **Display environment (WSL users)** — See notes below
+
+### Chrome Path Notes for WSL/Linux Users
+
+If you're running VS Code inside WSL (via Remote - WSL), Chrome must be installed inside WSL, not on Windows:
+
+```bash
+# Check which Chrome is available
+which google-chrome || which chromium-browser || which chromium
+
+# If nothing is found, install Chromium
+sudo apt update && sudo apt install -y chromium-browser
+
+# Or install Google Chrome
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install -y ./google-chrome-stable_current_amd64.deb
+```
+
+### Display Environment Notes (WSL Users)
+
+If Chrome won't launch with "cannot open display" error:
+
+1. **Windows 11 (WSLg built-in):** Run `echo $DISPLAY` in WSL terminal. If it shows something like `/mnt/wslg/.X11-lock`, you're good.
+
+2. **Windows 10 / Server (no WSLg):** Install xvfb:
+```bash
+sudo apt update && sudo apt install -y xvfb
+Xvfb :99 -screen 0 1920x1080x24 &
+export DISPLAY=:99
+```
+
+3. **Make it persistent:** Add to `~/.bashrc`:
+```bash
+if [ -z "$DISPLAY" ]; then
+    pgrep Xvfb > /dev/null || Xvfb :99 -screen 0 1920x1080x24 &
+    export DISPLAY=:99
+fi
+```
 
 ## Troubleshooting
 

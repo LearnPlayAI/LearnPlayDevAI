@@ -107,7 +107,79 @@ Your API key might be wrong or expired. Email jan@learnplay.co.za for a new one.
 
 ### "WebClaw extension shows red error badge"
 
-This is actually expected! The red error badge means the extension is loaded but not yet connected to a running WebClaw MCP server. Once Cline uses WebClaw MCP tools, the error will resolve.
+This is expected! The red error badge means the extension is loaded but not yet connected to a running WebClaw MCP server. Once Cline uses WebClaw MCP tools, the error will resolve.
+
+---
+
+## WSL / Chrome Browser Issues
+
+### "Chrome browser won't launch from Cline — cannot open display"
+
+This happens when VS Code is running inside WSL but WSL doesn't have a display environment (no X server / WSLg).
+
+**Solution 1: Check if WSLg is working (Windows 11)**
+- In the WSL terminal, run: `echo $DISPLAY`
+- If it's empty or shows nothing, WSLg isn't working
+- Update Windows: Settings → Update & Security → Windows Update
+- Restart your computer
+
+**Solution 2: Install virtual display (xvfb)**
+```bash
+sudo apt update
+sudo apt install -y xvfb
+Xvfb :99 -screen 0 1920x1080x24 &
+export DISPLAY=:99
+```
+
+**Solution 3: Use headless Chrome**
+```bash
+google-chrome --headless-new --no-sandbox --disable-gpu --remote-debugging-port=9222 &
+```
+
+### "WSLg not working on Windows 10"
+
+Windows 10 doesn't have built-in WSLg. Options:
+1. **Upgrade to Windows 11** — Recommended (WSLg is built-in)
+2. **Install an X Server on Windows** — Install [VcXsrv](https://sourceforge.net/projects/vcxsrv/) and set `DISPLAY=localhost:0.0` in WSL
+3. **Use xvfb** — See "Chrome browser won't launch" above
+
+### "Project files are slow — I'm working on /mnt/c/"
+
+You're working on the Windows filesystem instead of inside WSL. This is 10-100x slower!
+
+**Fix:**
+1. In VS Code, click the green `WSL: Ubuntu` in the bottom-left
+2. Select "New WSL Window"
+3. Clone your project inside WSL: `cd ~ && git clone <your-repo-url>`
+4. Never work inside `/mnt/c/` — always use your WSL home directory (`/home/username/`)
+
+### "Remote - WSL extension not showing up"
+
+1. Make sure you installed the correct extension: **Remote - WSL** by Microsoft
+2. Reload VS Code: `Ctrl+Shift+P` → "Developer: Reload Window"
+3. Make sure WSL is installed: `wsl --list --verbose` in PowerShell
+
+### "WSL: Ubuntu doesn't appear in status bar"
+
+1. Check WSL is installed: `wsl --install -d Ubuntu` (in PowerShell as Administrator)
+2. Restart VS Code
+3. Make sure you have an Ubuntu distribution: `wsl --list --verbose`
+
+### "Chrome/Chromium not found in WSL"
+
+WSL needs its own Chrome/Chromium installation, not the Windows one.
+
+**Install Chromium in WSL:**
+```bash
+sudo apt update
+sudo apt install -y chromium-browser
+```
+
+**Or install Google Chrome:**
+```bash
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install -y ./google-chrome-stable_current_amd64.deb
+```
 
 ---
 

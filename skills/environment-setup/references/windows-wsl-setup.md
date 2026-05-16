@@ -78,7 +78,58 @@ sudo usermod -aG docker $USER
 ```
 > Note: Log out and back in for Docker group changes to take effect.
 
-## Step 5: Verify Everything
+## Step 5: Verify WSL Display Environment
+
+Before proceeding, make sure WSL can run GUI apps (needed for Chrome browser automation).
+
+### Check WSLg (Windows 11 — Automatic)
+
+In the Ubuntu terminal, run:
+```bash
+echo $DISPLAY
+```
+
+- If you see something like `/mnt/wslg/.X11-lock` or `:0`, **WSLg is working** — skip to Step 6
+- If you see nothing (empty line), continue below
+
+### If WSLg Is Not Working (Option A: Windows 11)
+
+1. Make sure you're on Windows 11 (WSLg requires Windows 11)
+2. Update Windows: Settings → Update & Security → Windows Update
+3. Restart your computer
+4. Check again: `echo $DISPLAY`
+
+### If WSLg Is Not Working (Option B: Windows 10 or Server)
+
+Install a virtual display (xvfb):
+```bash
+sudo apt update
+sudo apt install -y xvfb
+Xvfb :99 -screen 0 1920x1080x24 &
+export DISPLAY=:99
+echo $DISPLAY   # Should show :99
+```
+
+To make this persistent, add these lines to `~/.bashrc`:
+```bash
+if [ -z "$DISPLAY" ]; then
+    pgrep Xvfb > /dev/null || Xvfb :99 -screen 0 1920x1080x24 &
+    export DISPLAY=:99
+fi
+```
+
+Then run: `source ~/.bashrc`
+
+### Test Display with a Simple App
+
+```bash
+sudo apt install -y x11-apps
+xeyes   # If you see eyes that follow your mouse, display works!
+```
+
+---
+
+## Step 6: Verify Tools Installed
 
 Run the environment detection script:
 ```bash
