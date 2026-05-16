@@ -90,6 +90,25 @@ Your API key might be wrong or expired. Email jan@learnplay.co.za for a new one.
 3. Make sure Node.js is installed: `node --version`
 4. Make sure Chrome or Chromium is installed
 
+### "Chrome browser won't launch from Cline"
+
+1. Make sure "Disable Browser Tool Usage" is unticked in Cline Browser Settings
+2. Make sure "Use Remote Browser Connection" is ticked
+3. Make sure Chrome or Chromium is installed on your system
+4. Try launching Chrome manually first to verify it works
+
+### "WebClaw extension won't load"
+
+1. Make sure you extracted the zip file to a folder called `webclaw` in your workspace
+2. Make sure `manifest.json` exists in that folder
+3. On WSL/Linux: Ask Cline to extract using gunzip: "Cline, please unzip the webclaw extension using gunzip"
+4. Make sure Developer mode is enabled in Chrome Extensions page
+5. Click "Load unpacked" and select the folder containing manifest.json
+
+### "WebClaw extension shows red error badge"
+
+This is actually expected! The red error badge means the extension is loaded but not yet connected to a running WebClaw MCP server. Once Cline uses WebClaw MCP tools, the error will resolve.
+
 ---
 
 ## Git / GitHub Issues

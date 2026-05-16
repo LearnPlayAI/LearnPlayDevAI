@@ -76,7 +76,7 @@ When you first use these terms, explain them:
 
 ## Onboarding Workflow
 
-When a user says "I want to create [app idea]" or similar, follow this sequence:
+When a user opens the workspace and starts interacting with you, follow this sequence:
 
 ### Phase 1: Welcome & Environment Check
 
@@ -85,49 +85,190 @@ When a user says "I want to create [app idea]" or similar, follow this sequence:
 3. Report what's found and what's missing
 4. If critical tools are missing, guide installation one at a time
 
-### Phase 2: Account & API Setup
+### Phase 2: GUI-Guided Setup Steps
 
-1. Check if API key is configured in `.env`
-2. If not configured:
-   - Explain they need an API key from jan@learnplay.co.za
-   - Help them draft the email to request a key
-   - Guide them to create the `.env` file with their key
-   - Test the API connection
-3. Check if GitHub is connected
-4. If not connected:
-   - Guide them through GitHub account creation (if needed)
-   - Help set up SSH keys or GitHub CLI
-   - Guide repo creation
+Guide the user through these setup steps using the VS Code GUI. Provide clear, step-by-step instructions for each:
 
-### Phase 3: Project Planning (Using saas-platform-planner Skill)
+#### 2a: Configure API Key (`.env` file)
+```
+✅ Step 1: Set Up Your AI API Key
 
-1. Load `skills/saas-platform-planner/SKILL.md` context
-2. Ask requirements intake questions (from `references/requirements-intake.md`)
-3. Use stack decision matrix to recommend a tech lane
-4. Present the scaffold plan to the user
-5. Get user confirmation before scaffolding
+1. In the EXPLORER panel (left sidebar), find the file: .env.example
+2. Right-click on it → select "Rename" → change the name to: .env
+3. Double-click .env to open it in the editor
+4. Replace YOUR_API_KEY_HERE with your actual key from jan@learnplay.co.za
+5. Save the file (Ctrl+S or File → Save)
 
-### Phase 4: Project Scaffolding
+Need help getting an API key? I can help you draft the email to request one.
+```
 
-1. Create the project structure based on selected stack
-2. Initialize git repository if not already done
-3. Create memory bank with project-specific context
-4. Generate `.env.example`
-5. Create initial Docker Compose (if applicable for the stack)
+#### 2b: Configure WebClaw MCP (VS Code Cline Extension GUI)
+```
+✅ Step 2: Set Up Browser Automation (WebClaw MCP)
+
+1. In the left sidebar of VS Code, click on the **Cline** extension icon
+2. Click on the **MCP Servers** button (to the right of the Plus button)
+3. Click on the **Configure** tab
+4. Click on **Configure MCP Servers** button
+5. A file called `cline_mcp_settings.json` will open
+6. Delete everything in that file and replace it with:
+
+{
+  "mcpServers": {
+    "webclaw": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "webclaw-mcp"
+      ],
+      "type": "stdio",
+      "autoApprove": [
+        "navigate_to",
+        "page_snapshot",
+        "click",
+        "hover",
+        "type_text",
+        "select_option",
+        "list_webmcp_tools",
+        "invoke_webmcp_tool",
+        "screenshot",
+        "new_tab",
+        "list_tabs",
+        "switch_tab",
+        "close_tab",
+        "go_back",
+        "go_forward",
+        "reload",
+        "wait_for_navigation",
+        "scroll_page",
+        "drop_files",
+        "handle_dialog",
+        "evaluate",
+        "close"
+      ]
+    }
+  }
+}
+
+7. Save the file (Ctrl+S)
+8. Wait for WebClaw to connect (you'll see a confirmation in the Cline panel)
+```
+
+#### 2c: Configure Chrome Browser & Install WebClaw Extension
+```
+✅ Step 3: Set Up Chrome Browser with WebClaw Extension
+
+Part A — Configure Cline's Browser Settings:
+1. Click the ⚙️ gear icon (Cline settings) in the bottom of the Cline panel
+2. Click the **Browser Settings** icon on the left
+3. Untick "Disable Browser Tool Usage"
+4. Set the viewport size to "Large Desktop"
+5. Tick "Use Remote Browser Connection"
+6. Click "Launch Browser with Debug Mode"
+7. A Chrome browser window should open automatically
+
+Part B — Install the WebClaw Extension:
+8. Go to https://github.com/kuroko1t/webclaw/releases
+9. Download: `webclaw-extension-v0.10.0.zip`
+10. Ask the Cline agent to extract it to a `webclaw` folder in your workspace:
+    "Cline, please unzip webclaw-extension-v0.10.0.zip to the webclaw folder using gunzip"
+11. In the Chrome browser: 3 dots → More tools → Extensions
+12. Enable "Developer mode" (top right corner)
+13. Click "Load unpacked"
+14. Browse to the `webclaw` folder where you extracted the zip
+15. Select the folder containing `manifest.json`
+16. You should see "WebClaw 0.10.0" with a red error badge — this is good!
+
+Part C — Test the Setup:
+17. Ask the Cline agent in planning mode to use WebClaw MCP to:
+    - Open https://google.com
+    - Take a screenshot
+    - Tell you what it sees
+```
+
+#### 2d: Verify Setup
+```
+✅ Step 4: Verify Everything Is Connected
+
+Look at the Cline panel (bottom of VS Code). You should see:
+  ✅ Cline is connected
+  ✅ WebClaw MCP is connected
+  ✅ API key is configured
+
+
+If any item shows ⚠️ or ❌, click it to see troubleshooting tips.
+```
+
+### Phase 3: App Idea & Requirements Questions
+
+Once setup is complete, invite the user to share their app idea:
+
+```
+Fantastic! Everything is set up perfectly. Now — what kind of app would you like to build?
+
+Don't worry about technical details — just describe your idea in your own words!
+
+For example:
+- "I want to create an app that helps people track their daily habits"
+- "I need a tool to manage my small business inventory"
+- "I want to build a website where people can share recipes"
+```
+
+Then ask non-technical requirements questions:
+
+```
+Great idea! Let me ask a few quick questions to help me recommend the best approach:
+
+1️⃣ Should this work on mobile phones too?
+   (A) Yes, I want it to work on phones
+   (B) Just on the computer is fine
+
+2️⃣ Do you need users to create accounts and save their data?
+   (A) Yes, users should have accounts
+   (B) No, just a simple tool without accounts
+
+3️⃣ Would you like it downloadable/installable on phones as an app?
+   (A) Yes, installable like a phone app
+   (B) Not needed
+
+4️⃣ Should it look like a normal website or a special interactive app?
+   (A) Like a normal website (simpler)
+   (B) Like a special interactive app
+```
+
+### Phase 4: Tech Stack Recommendation & Scaffolding
+
+Based on the user's answers, use the `skills/saas-platform-planner/` stack decision matrix to recommend the best approach. Present the recommendation clearly:
+
+```
+Based on your answers, I recommend:
+  • A Progressive Web App (PWA) — works on both phone and computer
+  • With a database to save user data
+  • Installable on phones as an app
+
+Here's what I'll set up for you:
+  [ ] Project folder structure
+  [ ] Dependencies and libraries
+  [ ] Basic page templates
+  [ ] Database setup
+  [ ] API connections
+
+Should I go ahead and create this for you? (Yes/No)
+```
+
+### Phase 5: Project Scaffolding & First Development
+
+After confirmation:
+1. Create the project structure
+2. Install dependencies
+3. Set up the memory bank
+4. Generate `.env` from template
+5. Create initial Docker Compose (if applicable)
 6. Show the user what was created
-
-### Phase 5: First Development Session
-
-1. Walk through the project structure with the user
-2. Explain where to find key files
-3. Help them make their first code change
-4. Guide them through running the app locally
-5. Set up the admin console if applicable
-6. Celebrate the first running app!
 
 ### Phase 6: Ongoing Development Mode
 
-After the initial setup, enter ongoing mode:
+After initial scaffolding:
 - Guide feature development step by step
 - Help debug issues
 - Review code and suggest improvements
@@ -160,31 +301,25 @@ You have access to these skills. Use them contextually:
 
 ## Memory Bank Management
 
-Update the memory bank regularly:
+The memory bank tracks project knowledge. Update these files as the project evolves:
 
 ### memory-bank/activeContext.md
 Update when: Task focus changes, new goals are set, recent changes were made
-Contains: Current focus, what's being worked on, recent changes, next steps
 
 ### memory-bank/decisionLog.md
 Update when: A meaningful decision is made (tech choice, approach, trade-off)
-Contains: Date, decision, rationale, alternatives considered
 
 ### memory-bank/progress.md
 Update when: A milestone is reached, a session ends, tests pass/fail
-Contains: Milestone tracking, session logs, test results
 
 ### memory-bank/systemPatterns.md
 Update when: Architecture changes, new patterns adopted, structure changes
-Contains: System architecture, boundaries, design patterns used
 
 ### memory-bank/techContext.md
 Update when: Tech stack changes, new tools added, environment changes
-Contains: Technical stack details, environment config, dependencies
 
 ### memory-bank/productContext.md
 Update when: Product requirements change, new features defined
-Contains: Product vision, user journeys, enterprise positioning
 
 ## Safety Rules
 

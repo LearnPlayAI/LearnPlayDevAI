@@ -1,36 +1,15 @@
-# System Patterns — promptly.app
+# System Patterns
 
 ## Architecture Overview
-Mono-repo style structure with separate frontend and backend applications under apps/.
+To be determined during project planning. Your AI agent will help you decide the best architecture for your app based on your requirements.
 
 ## Design Patterns
+To be determined during project planning. Common patterns your AI agent may recommend:
 
-### Backend (Spring Boot)
-- **Layered Architecture:** Controller → Service → Repository → Entity
-- **DTO Pattern:** Separate request/response DTOs from entities
-- **Adapter Pattern:** AI provider adapter interface (OpenAI-compatible, Anthropic, etc.)
-- **Strategy Pattern:** Different AI provider implementations
-- **AOP:** Audit logging via @Auditable annotation + AuditEventAspect
-- **Interceptors:** JWT authentication, error handling, request ID injection
+- **Layered Architecture:** Separation of concerns (UI, business logic, data)
+- **Service Pattern:** Reusable business logic in service modules
+- **Repository Pattern:** Data access abstraction
+- **Adapter Pattern:** Pluggable integrations (AI providers, databases, etc.)
 
-### Frontend (Angular)
-- **Standalone Components:** No NgModule — use standalone components
-- **Service Pattern:** Injectable services for all API calls
-- **Guard Pattern:** AuthGuard, RoleGuard, TenantGuard for route protection
-- **Interceptor Pattern:** JwtInterceptor, ErrorInterceptor for HTTP cross-cutting concerns
-- **Observable Pattern:** All data flows through RxJS Observables
-- **Tailwind CSS:** Utility-first styling with custom design tokens
-
-### Database
-- **Flyway Migrations:** SQL-first, version-controlled
-- **JPA/Hibernate:** ORM for entity management
-- **UUID Primary Keys:** All tables use UUID for distributed ID generation
-
-## Key Technical Decisions
-- PostgreSQL as source of truth
-- Flyway for migrations (not Drizzle)
-- JWT for auth (not Better Auth)
-- Tailwind CSS only (no Angular Material/PrimeNG)
-- Spring Security filter chain
-- HTTP-only cookies for JWT
-- BCrypt for password hashing
+---
+*System patterns will be documented here as we make architectural decisions.*

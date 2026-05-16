@@ -12,7 +12,7 @@ Download from: https://code.visualstudio.com/
 
 ### 2. Install the Cline Extension
 
-In VS Code, open Extensions (`Ctrl+Shift+X`), search for "Cline", and install it.
+In VS Code, open Extensions (`Ctrl+Shift+X`), search "Cline", and install it.
 
 ### 3. Request a Free API Key
 
@@ -29,6 +29,7 @@ This covers:
 - Setting up your project folder
 - Installing required tools (Node.js, Python, etc.)
 - Configuring your API key
+- Setting up WebClaw MCP for browser automation
 
 ### 5. Start Building!
 
@@ -42,6 +43,7 @@ Open VS Code, open the Cline chat, and tell the AI agent what app you want to bu
 
 ```
 ├── .clinerules              # AI agent behavior rules
+├── .clineignore             # Files Cline should ignore
 ├── scripts/                 # Setup and verification scripts
 │   ├── detect-environment.sh  # Detects your OS and tools
 │   ├── verify-setup.sh       # Checks if everything is ready

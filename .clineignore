@@ -1,0 +1,8 @@
+# Cline Ignore — Files and directories Cline should skip during onboarding
+# This helps keep the AI focused on the task and not get distracted by templates or reference files
+
+# Memory bank templates (Cline should create memory-bank from these, not read them as active)
+memory-bank-template/**
+
+# Cline's own internal files
+.vscode/tasks/
