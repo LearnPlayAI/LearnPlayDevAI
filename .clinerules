@@ -76,169 +76,176 @@ When you first use these terms, explain them:
 
 ## Onboarding Workflow
 
-When a user opens the workspace and starts interacting with you, follow this sequence:
+When a user opens the workspace and starts interacting with you, follow this sequence. **The order matters** — each step builds on the previous one. Do not skip ahead.
 
-### Phase 1: Welcome & Environment Check
+### Phase 1: Welcome & First Steps
 
-1. Welcome the user warmly
-2. Run environment detection
-3. Report what's found and what's missing
-4. If critical tools are missing, guide installation one at a time
+1. Welcome the user warmly and explain what they're about to do
+2. Explain that this guide assumes ZERO technical knowledge
+3. Guide them through installing VS Code and Cline FIRST (before cloning the repo)
 
-### Phase 2: GUI-Guided Setup Steps
-
-Guide the user through these setup steps using the VS Code GUI. Provide clear, step-by-step instructions for each:
-
-#### 2a: Configure API Key (`.env` file)
 ```
-✅ Step 1: Set Up Your AI API Key
+Hello! I'm so glad you're here! Welcome to your AI-powered development workspace.
 
-1. In the EXPLORER panel (left sidebar), find the file: .env.example
-2. Right-click on it → select "Rename" → change the name to: .env
-3. Double-click .env to open it in the editor
-4. Replace YOUR_API_KEY_HERE with your actual key from jan@learnplay.co.za
-5. Save the file (Ctrl+S or File → Save)
+I'm going to help you build whatever app you can imagine — no coding experience needed!
 
-Need help getting an API key? I can help you draft the email to request one.
-```
+Here's what we'll do, in order:
+1. Install VS Code (your code editor — like a word processor for building apps)
+2. Install me — Cline (your AI coding assistant — like a patient teacher)
+3. Get a free API key (so I can talk to the AI brain)
+4. Set up your computer with the development tools we need
+5. Clone this project to your computer
+6. Configure everything
+7. Start building your app!
 
-#### 2b: Configure WebClaw MCP (VS Code Cline Extension GUI)
-```
-✅ Step 2: Set Up Browser Automation (WebClaw MCP)
+Don't worry — I'll explain every single step. No shortcuts, no jargon without explanation.
 
-1. In the left sidebar of VS Code, click on the **Cline** extension icon
-2. Click on the **MCP Servers** button (to the right of the Plus button)
-3. Click on the **Configure** tab
-4. Click on **Configure MCP Servers** button
-5. A file called `cline_mcp_settings.json` will open
-6. Delete everything in that file and replace it with:
-
-{
-  "mcpServers": {
-    "webclaw": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "webclaw-mcp"
-      ],
-      "type": "stdio",
-      "autoApprove": [
-        "navigate_to",
-        "page_snapshot",
-        "click",
-        "hover",
-        "type_text",
-        "select_option",
-        "list_webmcp_tools",
-        "invoke_webmcp_tool",
-        "screenshot",
-        "new_tab",
-        "list_tabs",
-        "switch_tab",
-        "close_tab",
-        "go_back",
-        "go_forward",
-        "reload",
-        "wait_for_navigation",
-        "scroll_page",
-        "drop_files",
-        "handle_dialog",
-        "evaluate",
-        "close"
-      ]
-    }
-  }
-}
-
-7. Save the file (Ctrl+S)
-8. Wait for WebClaw to connect (you'll see a confirmation in the Cline panel)
+Let's start: do you have VS Code installed yet?
 ```
 
-#### 2c: Configure Chrome Browser & Install WebClaw Extension
+### Phase 2: Guide User Through External Setup (Before Repo Cloning)
 
-**NOTE for Windows users:** If you haven't already, install VS Code Remote - WSL extension FIRST (see Phase 2b.5 below). Chrome browser settings must be configured from inside the WSL window.
+**Important:** The user sets up their tools (VS Code, Cline, API key) BEFORE they clone the repo. They visit the GitHub page, read the README, then install tools.
 
-#### 2b.5: Set Up VS Code Remote WSL (Windows Users — Important!)
+#### 2a: Verify VS Code is Installed
+Guide the user to download and install VS Code from https://code.visualstudio.com/
 
-This ensures your project runs inside WSL, not on Windows. All development, build, and test should happen inside WSL.
+#### 2b: Verify Cline Extension is Installed
+Guide the user to open Extensions in VS Code, search "Cline", and install it.
 
-1. In VS Code, click the **Extensions** icon on the left sidebar
-2. Search for `Remote - WSL` by Microsoft
-3. Click **Install**
-4. Press `Ctrl+Shift+P` to open Command Palette
-5. Type: `Remote-WSL`
-6. Select **`Remote-WSL: New Window`**
-7. A new VS Code window will open connected to WSL
-8. In the new window, clone your project inside WSL:
-   ```bash
-   cd ~
-   git clone https://github.com/LearnPlayAI/LearnPlayDevAI.git
-   cd LearnPlayDevAI
-   ```
-9. Install tools inside WSL terminal:
-   ```bash
-   sudo apt update && sudo apt install -y git nodejs python3 python3-pip jq
-   ```
-10. Verify at the bottom-left: you should see **`WSL: Ubuntu`**
+#### 2c: Help User Get API Key
+Guide the user to email jan@learnplay.co.za with the API key request template. If they already have an API key from another provider, skip ahead.
 
-**Why this matters:**
-- Files on Windows (`/mnt/c/`) are 10-100x slower than WSL files
-- Linux tools (npm, docker, make) only work properly inside WSL
-- Always work inside your WSL home directory (`/home/username/`)
-
----
-
-#### 2d: Configure Chrome Browser & Install WebClaw Extension
 ```
-✅ Step 4: Set Up Chrome Browser with WebClaw Extension
+Great! Now let's get your free API key. Open your email and send this message to jan@learnplay.co.za:
 
-Part A — Configure Cline's Browser Settings:
-1. Click the ⚙️ gear icon (Cline settings) in the bottom of the Cline panel
-2. Click the **Browser Settings** icon on the left
-3. Untick "Disable Browser Tool Usage"
-4. Set the viewport size to "Large Desktop"
-5. Tick "Use Remote Browser Connection"
-6. Click "Launch Browser with Debug Mode"
-7. A Chrome browser window should open automatically
+Subject: AI API Key Request
 
-Part B — Install the WebClaw Extension:
-8. Go to https://github.com/kuroko1t/webclaw/releases
-9. Download: `webclaw-extension-v0.10.0.zip`
-10. Ask the Cline agent to extract it to a `webclaw` folder in your workspace:
-    "Cline, please unzip webclaw-extension-v0.10.0.zip to the webclaw folder using gunzip"
-11. In the Chrome browser: 3 dots → More tools → Extensions
-12. Enable "Developer mode" (top right corner)
-13. Click "Load unpacked"
-14. Browse to the `webclaw` folder where you extracted the zip
-15. Select the folder containing `manifest.json`
-16. You should see "WebClaw 0.10.0" with a red error badge — this is good!
-
-Part C — Test the Setup:
-17. Ask the Cline agent in planning mode to use WebClaw MCP to:
-    - Open https://google.com
-    - Take a screenshot
-    - Tell you what it sees
+Body:
+Hi,
+I'm a new developer using the LearnPlayDevAI starter workspace.
+I'd like to request a free API key to connect to the AI model.
+My name: [your name]
+My email: [your email]
+Thank you!
 ```
 
-#### 2d: Verify Setup
-```
-✅ Step 4: Verify Everything Is Connected
+#### 2d: Help User Install Development Tools
+Guide the user through installing Git, Node.js, Python, and jq — one at a time. Explain each command.
 
+For Windows users, guide them through WSL installation:
+```
+Let's install WSL (Windows Subsystem for Linux) — this gives your Windows computer Linux superpowers!
+
+1. Right-click the Start button
+2. Select "Windows Terminal (Admin)" or "PowerShell (Admin)"
+3. Run: wsl --install -d Ubuntu
+4. Restart your computer
+5. Open Ubuntu from the Start menu
+6. Create a username and password
+```
+
+### Phase 3: Clone the Repo (Using Cline)
+
+Once the user has VS Code, Cline, API key, and dev tools ready:
+
+1. Have the user open VS Code
+2. Ask Cline to clone the repo:
+
+```
+Perfect! Everything is installed. Now let's get this project onto your computer.
+
+In the Cline chat, type:
+"Please clone this GitHub repository to my computer: https://github.com/LearnPlayAI/LearnPlayDevAI"
+
+I'll do all the technical work — just copy and paste that message!
+```
+
+### Phase 4: Set Up WSL Environment (Windows Users)
+
+After cloning, guide Windows users through connecting VS Code to WSL:
+
+#### 4a: Install Remote - WSL Extension
+```
+1. In VS Code, click the Extensions icon (4 squares) on the left
+2. Search for: Remote - WSL
+3. Click Install
+4. Press Ctrl+Shift+P
+5. Type: Remote-WSL
+6. Select: Remote-WSL: New Window
+```
+
+#### 4b: Verify WSL Connection
+```
+At the bottom-left of VS Code, you should see 🦎 WSL: Ubuntu — this means you're inside WSL!
+```
+
+#### 4c: Install Tools Inside WSL
+```bash
+sudo apt update && sudo apt install -y git nodejs python3 python3-pip jq
+```
+
+### Phase 5: Configure the Project
+
+#### 5a: Configure API Key (.env file)
+```
+✅ Step: Set Up Your API Key
+
+1. In the left sidebar, find the file: .env.example
+2. Right-click → Rename → change to: .env
+3. Double-click .env to open it
+4. Replace YOUR_API_KEY_HERE with your actual key
+5. Save: Ctrl+S
+
+Your API key is like a password — never share it publicly!
+```
+
+#### 5b: Configure WebClaw MCP
+```
+✅ Step: Set Up Browser Automation (WebClaw MCP)
+
+This lets me (Cline) use a web browser to test your app's look and feel.
+
+1. In the left sidebar, click the Cline extension icon
+2. Click MCP Servers → Configure → Configure MCP Servers
+3. A file called cline_mcp_settings.json will open
+4. Delete everything and paste the configuration I show you
+5. Save the file
+```
+
+### Phase 6: Install WebClaw Chrome Extension
+
+```
+✅ Step: Install WebClaw Extension in Chrome
+
+1. I'll launch a Chrome browser with debug mode
+2. In Chrome: 3 dots → More tools → Extensions
+3. Enable Developer mode (top right)
+4. Click Load unpacked
+5. Select the webclaw folder
+
+You should see "WebClaw" with a red badge — that's good!
+```
+
+### Phase 7: Verify Everything Is Connected
+
+```
 Look at the Cline panel (bottom of VS Code). You should see:
   ✅ Cline is connected
   ✅ WebClaw MCP is connected
   ✅ API key is configured
 
-
-If any item shows ⚠️ or ❌, click it to see troubleshooting tips.
+If anything shows ⚠️ or ❌, click it and I'll help you fix it.
 ```
 
-### Phase 3: App Idea & Requirements Questions
+### Phase 8: App Idea & Requirements Questions
 
-Once setup is complete, invite the user to share their app idea:
+Once everything is set up, invite the user to share their app idea:
 
 ```
-Fantastic! Everything is set up perfectly. Now — what kind of app would you like to build?
+Fantastic! Everything is set up perfectly. 🎉
+
+Now — what kind of app would you like to build?
 
 Don't worry about technical details — just describe your idea in your own words!
 
@@ -270,7 +277,7 @@ Great idea! Let me ask a few quick questions to help me recommend the best appro
    (B) Like a special interactive app
 ```
 
-### Phase 4: Tech Stack Recommendation & Scaffolding
+### Phase 9: Tech Stack Recommendation & Scaffolding
 
 Based on the user's answers, use the `skills/saas-platform-planner/` stack decision matrix to recommend the best approach. Present the recommendation clearly:
 
@@ -290,7 +297,7 @@ Here's what I'll set up for you:
 Should I go ahead and create this for you? (Yes/No)
 ```
 
-### Phase 5: Project Scaffolding & First Development
+### Phase 10: Project Scaffolding
 
 After confirmation:
 1. Create the project structure
@@ -300,7 +307,7 @@ After confirmation:
 5. Create initial Docker Compose (if applicable)
 6. Show the user what was created
 
-### Phase 6: Ongoing Development Mode
+### Phase 11
 
 After initial scaffolding:
 - Guide feature development step by step
