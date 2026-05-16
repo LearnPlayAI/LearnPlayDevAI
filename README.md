@@ -1,39 +1,71 @@
 # LearnPlayDevAI — Starter Workspace for AI-Powered App Development
 
-> **No coding experience needed.** Pull this workspace, install VS Code + Cline, and start building your app with AI guidance.
+> **No coding experience needed.** Clone this repo, install VS Code + Cline, and start building your app with AI guidance.
 
 ---
 
-## Quick Start
+## Getting Started
 
-### 1. Install VS Code
+### Step 1: Visit the GitHub Repo
+
+**Go to:** https://github.com/LearnPlayAI/LearnPlayDevAI
+
+From here you can:
+- **View this README** — Everything you need to know is in this file
+- **Fork the repo** — Create your own copy to customize
+- **Clone the repo** — Download to your machine (instructions below)
+
+### Step 2: Clone the Repository
+
+**On Windows (via WSL):**
+```bash
+wsl
+cd ~
+git clone https://github.com/LearnPlayAI/LearnPlayDevAI.git
+cd LearnPlayDevAI
+```
+
+**On Linux:**
+```bash
+git clone https://github.com/LearnPlayAI/LearnPlayDevAI.git
+cd LearnPlayDevAI
+```
+
+**On macOS:**
+```bash
+git clone https://github.com/LearnPlayAI/LearnPlayDevAI.git
+cd LearnPlayDevAI
+```
+
+### Step 3: Install VS Code
 
 Download from: https://code.visualstudio.com/
 
-### 2. Install the Cline Extension
+### Step 4: Install the Cline Extension
 
 In VS Code, open Extensions (`Ctrl+Shift+X`), search "Cline", and install it.
 
-### 3. Request a Free API Key
+### Step 5: Request a Free API Key
 
 Email **jan@learnplay.co.za** with subject "AI API Key Request" and include:
 - Your name
 - Your email
 
-### 4. Set Up Your Environment
+### Step 6: Set Up Your Environment
 
 Follow the complete setup guide: [docs/USER-SETUP-GUIDE.md](docs/USER-SETUP-GUIDE.md)
 
 This covers:
 - Installing Git
-- Setting up your project folder
+- Setting up your project folder inside WSL
 - Installing required tools (Node.js, Python, etc.)
 - Configuring your API key
 - Setting up WebClaw MCP for browser automation
+- Configuring Chrome browser with WSL display environment
 
-### 5. Start Building!
+### Step 7: Start Building!
 
-Open VS Code, open the Cline chat, and tell the AI agent what app you want to build:
+Open VS Code (inside WSL if on Windows), open the Cline chat, and tell the AI agent what app you want to build:
 
 > "I want to create an app that helps people track their daily habits"
 
