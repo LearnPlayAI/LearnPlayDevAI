@@ -1,0 +1,11 @@
+Subject: AI API Key Request — [Your Name]
+
+Hi,
+
+I'm a new developer using the LearnPlayDevAI starter workspace. I'd like to request a free API key to connect to the AI model.
+
+My name: [Your Full Name]
+My email: [Your Email Address]
+My GitHub username: [Your GitHub Username] (if you have one)
+
+Thank you!

@@ -1,91 +1,128 @@
-# promptly.app
+# LearnPlayDevAI — Starter Workspace for AI-Powered App Development
 
-Enterprise AI Prompt Engineering Platform
+> **No coding experience needed.** Pull this workspace, install VS Code + Cline, and start building your app with AI guidance.
 
-A complete replatform of PromptForgeV2 (Next.js + Drizzle + Better Auth) into:
+---
 
-- **Frontend:** Angular 18+ (Tailwind CSS only, PWA-ready)
-- **Backend:** Spring Boot 3.x (Spring Security + JWT + Flyway)
-- **Database:** PostgreSQL 18
-- **Deployment:** Docker Compose on Ubuntu 24.04 VPS
+## Quick Start
 
-## Architecture
+### 1. Install VS Code
 
+Download from: https://code.visualstudio.com/
 
+### 2. Install the Cline Extension
 
-## Quick Start (Development)
+In VS Code, open Extensions (`Ctrl+Shift+X`), search for "Cline", and install it.
 
-### Prerequisites
+### 3. Request a Free API Key
 
-- Java 21+ (for Spring Boot)
-- Node.js 20+ (for Angular)
-- PostgreSQL 18
-- Docker Compose (for deployment)
+Email **jan@learnplay.co.za** with subject "AI API Key Request" and include:
+- Your name
+- Your email
 
-### 1. Start PostgreSQL
+### 4. Set Up Your Environment
 
-localhost:5432 - accepting connections
+Follow the complete setup guide: [docs/USER-SETUP-GUIDE.md](docs/USER-SETUP-GUIDE.md)
 
-### 2. Backend (Spring Boot)
+This covers:
+- Installing Git
+- Setting up your project folder
+- Installing required tools (Node.js, Python, etc.)
+- Configuring your API key
 
+### 5. Start Building!
 
+Open VS Code, open the Cline chat, and tell the AI agent what app you want to build:
 
-Backend runs on 
+> "I want to create an app that helps people track their daily habits"
 
-### 3. Frontend (Angular)
+---
 
+## What's in This Workspace?
 
-up to date, audited 885 packages in 8s
+```
+├── .clinerules              # AI agent behavior rules
+├── scripts/                 # Setup and verification scripts
+│   ├── detect-environment.sh  # Detects your OS and tools
+│   ├── verify-setup.sh       # Checks if everything is ready
+│   ├── setup-git.sh          # Interactive Git config
+│   └── setup-ide.sh          # Installs VS Code extensions
+├── skills/                  # AI agent skill modules
+│   ├── saas-platform-planner/   # Tech stack selection
+│   ├── environment-setup/       # OS/tool setup guidance
+│   ├── account-setup/           # GitHub/API key guidance
+│   └── vscode-setup/            # VS Code/Cline/MCP setup
+├── docs/                    # Documentation
+│   ├── USER-SETUP-GUIDE.md   # Complete setup walkthrough
+│   ├── FIRST-SESSION-GUIDE.md # What happens when you start Cline
+│   ├── TROUBLESHOOTING.md    # Common issues and fixes
+│   ├── webclaw-mcp-setup.md  # Browser automation setup
+│   └── github-ssh-setup.md   # GitHub connection guide
+├── memory-bank-template/    # Pre-seeded memory bank
+├── .vscode/                 # VS Code project settings
+└── .github/                 # GitHub templates
+```
 
-213 packages are looking for funding
-  run `npm fund` for details
+---
 
-16 vulnerabilities (11 moderate, 5 high)
+## Supported Platforms
 
-To address issues that do not require attention, run:
-  npm audit fix
+| Platform | Status | Notes |
+|----------|--------|-------|
+| Windows + WSL | ✅ Primary | Recommended for Windows users |
+| Linux native | ✅ Fully supported | Ubuntu/Debian recommended |
+| macOS | ✅ Fully supported | Via Homebrew |
 
-To address all issues (including breaking changes), run:
-  npm audit fix --force
+---
 
-Run `npm audit` for details.
+## What You'll Need
 
-> promptly@0.1.0 start
-> next start
+| Tool | Purpose | Required |
+|------|---------|----------|
+| VS Code | Code editor | Yes |
+| Cline extension | AI coding assistant | Yes |
+| Git | Version control | Yes |
+| Node.js | JavaScript runtime | Yes |
+| Python 3 | Scripting | Yes |
+| API Key | Connect to AI | Yes |
+| GitHub account | Code hosting | Yes |
+| Docker | Containerization | Optional for now |
 
-Frontend runs on 
+---
 
-## Project Structure
+## The User Journey
 
+1. **Visit this GitHub page** — You're here!
+2. **Install VS Code + Cline** — Takes 5 minutes
+3. **Request API key** — Free from jan@learnplay.co.za
+4. **Set up your environment** — Follow the setup guide
+5. **Pull this workspace** — Clone to your machine
+6. **Tell Cline your app idea** — "I want to create..."
+7. **Let Cline guide you** — Step by step, from there!
 
+---
 
-## Production Deployment
+## FAQ
 
-Deploy to  via SSH:
+### Is this really free?
+Yes! The API key is free for starter workspace users.
 
+### Do I need coding experience?
+No! The AI agent explains everything and guides you step by step.
 
+### What if I get stuck?
+Check [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) or ask Cline!
 
-Public URL: https://pf.learnplay.co.za
+### Can I use this for any type of app?
+Yes! The AI agent helps you choose the right tech stack for your specific app idea.
 
-## Enterprise Features
+---
 
-- Multi-tenant workspace isolation
-- Role-based access control (OWNER, ADMIN, MEMBER, VIEWER)
-- Audit logging on all data-changing actions
-- JWT authentication with HTTP-only cookies
-- Rate limiting on auth endpoints
-- Spring Boot Actuator health/metrics
+## License
 
-## Testing
+This is an educational starter workspace. Feel free to fork and customize.
 
-- WebClaw MCP browser user-journey testing (per .clinerules)
-- Spring Boot unit + integration tests
-- Angular unit tests
-- Flyway migration validation
+## Support
 
-## Documentation
-
-- [Implementation Plan](IMPLEMENTATION_PLAN.md)
-- [Technical Architecture](docs/technical-architecture.md)
-- [Implementation Roadmap](docs/implementation-roadmap.md)
-- [Next Agent Handoff](docs/next-agent-handoff.md)
+- **API Key Issues:** jan@learnplay.co.za
+- **Setup Issues:** Ask Cline or check docs/TROUBLESHOOTING.md

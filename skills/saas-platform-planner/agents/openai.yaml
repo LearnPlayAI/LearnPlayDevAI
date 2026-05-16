@@ -1,0 +1,3 @@
+interface:
+  display_name: "SaaS Platform Planner"
+  short_description: "Plan robust PWA SaaS stacks, Docker VPS deployments, and admin consoles."

@@ -1,26 +1,22 @@
-# Active Context — promptly.app
+# Active Context
 
 ## Current Focus
-Phase 1: Workspace Bootstrap and Project Scaffolding
+LearnPlayDevAI workspace template is fully created and ready for GitHub push.
 
-## What We Are Working On
-- Creating the complete foundational workspace at /vscode/promptly-app/
-- Adapted from PromptForgeV2 (Next.js + Drizzle + Better Auth)
-- New stack: Angular 18+ (Tailwind CSS only) + Spring Boot 3.x + PostgreSQL 18
+## What's Been Worked On
+- Created complete workspace template structure
+- Created 3 new skills (environment-setup, account-setup, vscode-setup)
+- Created 5 documentation files for user setup
+- Created utility scripts (detect-environment, verify-setup, setup-git, setup-ide)
+- Created pre-seeded memory bank template
+- Created VS Code project configuration
+- Created public README.md
 
 ## Recent Changes
-- Created .clinerules adapted for Angular + Spring Boot stack
-- Created directory structure (apps/api, apps/web, infra, scripts, memory-bank, docs)
-- Created .gitignore, .editorconfig, README.md, .env.example
+All template files created. Ready to push to GitHub.
 
 ## Next Steps
-1. Create memory-bank documentation (decisionLog, productContext, progress, systemPatterns, techContext)
-2. Create docs/ with initial documentation
-3. Create infra/ with Docker Compose and Nginx config
-4. Create scripts/ with admin console template
-5. Copy IMPLEMENTATION_PLAN.md
-6. Initialize git repository
-7. Begin Phase 2: Database Schema Design and Flyway Migrations
-
-## Open Issues
-- None currently. All foundational decisions confirmed by user.
+1. User signs into GitHub via WebClaw
+2. Create LearnPlayDevAI repository on GitHub
+3. Push all template files to the repository
+4. Update this file with the repository URL
